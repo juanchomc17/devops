@@ -30,7 +30,6 @@ jobs:
     needs: ci
     runs-on: self-hosted
     steps: 
-
       -uses: actions/checkout@v3
 
       - name: Modify values file
