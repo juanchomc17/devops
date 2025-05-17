@@ -29,9 +29,9 @@ jobs:
   cd:
     needs: ci
     runs-on: self-hosted
-    steps: 
+    steps:
       -uses: actions/checkout@v3
-      
+
       - name: Modify values file
         shell: bash
         run: |
