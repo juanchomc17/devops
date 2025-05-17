@@ -7,7 +7,6 @@ on:
     branches:
       - main
 
-
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -26,11 +25,13 @@ jobs:
           tags: juanchomc17/devops-app:${{ github.sha }}
     outputs:
       commit_id: ${{ github.sha }}
+
   cd:
     needs: ci
     runs-on: self-hosted
     steps:
-      -uses: actions/checkout@v3
+
+      - uses: actions/checkout@v3
 
       - name: Modify values file
         shell: bash
@@ -39,28 +40,25 @@ jobs:
           pip install yq
           yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/devops-app/values.yaml
 
-      -name: Commit Changes
+      - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
           message: 'Updates values.yaml with commit ${{needs.ci.outputs.commit_id}}'
 
-      
       - name: Install argocd
         shell: bash
         run: |
-          curl -ksSL -o  argocd https://argocd-server.argocd/download/argocd-linux-amd64
+          curl -ksSL -o argocd https://argocd-server.argocd/download/argocd-linux-amd64
           chmod +x argocd
           sudo mv ./argocd /usr/local/bin/argocd
-
 
       - name: Argocd app sync
         shell: bash
         run: |
           argocd login argocd-server.argocd \
-           --insecure  \
-           --grpc-web \
-           --username admin \
-           --password ${{ secrets.ARGOCD_PASSWORD }}
-          argocd app sync devops-app
-
+            --insecure  \
+            --grpc-web \
+            --username admin \
+            --password  ${{ secrets.ARGOCD_PASSWORD }}
+          argocd app sync python-app
 
