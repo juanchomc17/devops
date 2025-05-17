@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: juanchomc17/devops-app
   pullPolicy: IfNotPresent
-  tag: f314b8c78670b2c9e6e70a6f0d08659c7dcb355a
+  tag: 55d438de0b44d0680d724931792697f4ac5c6eb2
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
